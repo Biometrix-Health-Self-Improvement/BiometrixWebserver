@@ -1,2 +1,2 @@
-# BiometrixWebserverHTML
-This may or may not be needed, but this repository will contain our html code for the webserver
+# BiometrixWebserver
+A place to store the code that will be sent directly to our webserver
