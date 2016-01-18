@@ -39,10 +39,10 @@ try
 	$stmt_handle = $db_connection->prepare('Insert Into Biometrix.dbo.LoginTable (Username, Password) Values (:name, :pass)');
 
 	#Hashes the user's password
-	$inserted_pass = password_hash($argv[2], PASSWORD_DEFAULT); 
+	$inserted_pass = password_hash($password, PASSWORD_DEFAULT); 
 
 	#Binds the username and hashed password to the prepared statement
-	$stmt_handle->bindValue(':name', $argv[1], PDO::PARAM_STR);
+	$stmt_handle->bindValue(':name', $username, PDO::PARAM_STR);
 	$stmt_handle->bindValue(':pass', $inserted_pass, PDO::PARAM_STR);
 
 	$stmt_handle->execute();
