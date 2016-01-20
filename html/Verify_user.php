@@ -19,13 +19,13 @@ function verify_user($username, $password)
 {
 	#Creates an object for the return of the json object.	
 	$json_verified = array();
-	$json_verified['verified'] = false;
+	$json_verified['Verified'] = false;
 	
 #The entire statement is enclosed in a try in case of a PDO exeption.
 try
 {
 	#Includes the database connection file in this script
-	require 'Get_db_connection.php';
+	require '/var/www/dbconnection/Get_db_connection.php';
 	
 	#Runs the get_db_connection function in the above file which returns
 	#the PDO connection to the database
@@ -56,7 +56,7 @@ try
 	if ($pass_correct)
 	{
 		#Stores the success in a json object
-		$json_verified['verified'] = true;
+		$json_verified['Verified'] = true;
 	}
 
 }

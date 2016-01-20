@@ -13,6 +13,7 @@ try
 {
 	#Runs the script that sets up the paramaters based on either the commandline arguments
 	#or the HTTP arguments
+	
 	require 'Setup_credential_params.php';
 	
 	#Includes the code for verifying the user

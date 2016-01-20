@@ -8,27 +8,30 @@
 # 	The user's entry into the php scripts. This call the other db scripts based on the
 # 	parameter that is based in.
 
+$url_encoded = file_get_contents("php://input");
+$json_params = urldecode($url_encoded);
+$http_post = (json_decode($json_params, true));
 
-#If no operation was selected, echo the error and that is all.
-if (!isset($_POST['operation'] ))
+$operation = $http_post["Operation"];
+$username = $http_post["Username"];
+$password = $http_post["Password"];
+
+
+#Chooses the script to call based on the HTML POST
+switch($operation )
 {
-	echo "No database operation was selected";
-}
-else
-{
-	#Chooses the script to call based on the HTML POST
-	switch($_POST['operation'] )
-	{
-	case "Login":
-		require 'Login_user.php';
-		break;
-	case "Add":
-		require 'Add_db_user.php';
-		break;
-	case "Delete":
-		require 'Del_db_user.php';
-		break;
-	}
+case "Login":
+	require 'Login_user.php';
+	break;
+case "Add":
+	require 'Add_db_user.php';
+	break;
+case "Delete":
+	require 'Del_db_user.php';
+	break;
+default:
+	echo 'Invalid Operation "' . $operation . '"chosen';
+	break;
 }
 
 ?>

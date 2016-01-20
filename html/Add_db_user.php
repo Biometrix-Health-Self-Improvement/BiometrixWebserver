@@ -14,7 +14,7 @@ try
 	require 'Setup_credential_params.php';
 	
 	#includes the script for getting the db connection
-	require 'Get_db_connection.php';
+	require '/var/www/dbconnection/Get_db_connection.php';
 	
 	#Makes a call to a the get_db_connection that sets up the PDO connection
 	$db_connection = DbConnection::get_instance()->get_db_connection();	
@@ -47,7 +47,9 @@ try
 
 	$stmt_handle->execute();
 	
-	Echo "New User " . $argv[1] . " added\n";
+	$json_verified = array();
+	$json_verified['Verified'] = True;
+	echo json_encode($json_verified);
 	$db_connection=null;	
 }
 catch(PDOException $except)
