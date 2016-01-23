@@ -24,7 +24,7 @@ try
 	$username_check_handle = $db_connection->prepare('Select Username From Biometrix.dbo.LoginTable Where Username = :name');
 	
 	#Binds the username to the where clause above
-	$username_check_handle->bindValue(':name', $argv[1], PDO::PARAM_STR);	
+	$username_check_handle->bindValue(':name', $username, PDO::PARAM_STR);	
 	$username_check_handle->execute();
 
 	#Checks if a row was returned
@@ -34,9 +34,24 @@ try
 		exit("That username already exists\n");
 	}
 	
-	#Creates the prepared statement to insert the new username and password
-	#into the table
-	$stmt_handle = $db_connection->prepare('Insert Into Biometrix.dbo.LoginTable (Username, Password) Values (:name, :pass)');
+	#Prepares a select statement to check if the email address already
+	#is in use
+	$email_check_handle = $db_connection->prepare('Select Email From Biometrix.dbo.LoginTable Where Email = :email');
+	
+	#Binds the username to the where clause above
+	$email_check_handle->bindValue(':email', $email, PDO::PARAM_STR);	
+	$email_check_handle->execute();
+
+	#Checks if a row was returned
+	if ($email_check_handle->fetch() != false)
+	{
+		$db_connection = null;
+		exit("That email address is already in use!\n");
+	}
+	
+	#Creates the prepared statement to insert the new username, password, 
+	#and email into the table
+	$stmt_handle = $db_connection->prepare('Insert Into Biometrix.dbo.LoginTable (Username, Password, Email) Values (:name, :pass, :email)');
 
 	#Hashes the user's password
 	$inserted_pass = password_hash($password, PASSWORD_DEFAULT); 
@@ -44,9 +59,11 @@ try
 	#Binds the username and hashed password to the prepared statement
 	$stmt_handle->bindValue(':name', $username, PDO::PARAM_STR);
 	$stmt_handle->bindValue(':pass', $inserted_pass, PDO::PARAM_STR);
+	$stmt_handle->bindValue(':email', $email, PDO::PARAM_STR);
 
 	$stmt_handle->execute();
 	
+	#Creates the json object that is passed back to the application
 	$json_verified = array();
 	$json_verified['Verified'] = True;
 	echo json_encode($json_verified);
