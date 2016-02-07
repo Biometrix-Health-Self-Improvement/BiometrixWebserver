@@ -23,27 +23,27 @@ case "Login":
 	#Retrieves the json information specific to logging in 
 	$username = $http_post["Username"];
 	$password = $http_post["Password"];
-	require 'login_user';
+	require '../dboperations/login_user';
 	break;
 case "Add":
 	#Retrieves the json information for adding a user 
 	$username = $http_post["Username"];
 	$password = $http_post["Password"];
 	$email = $http_post["Email"];
-	require 'add_user';
+	require '../dboperations/add_user';
 	break;
 case "Delete":
 	#Retrieves the json information for deleting a user 
 	$username = $http_post["Username"];
 	$password = $http_post["Password"];
 	$email = $http_post["Email"];
-	require 'del_user';
+	require '../dboperations/del_user';
 	break;
 case "Reset":
 	#Retrieves the json information for resetting a user
 	$username = $http_post["Username"];
 	$email = $http_post["Email"];
-	require 'reset_user';
+	require '../dboperations/reset_user';
 	break;
 default:
 	echo "Welcome to Biometrix!\nEither your chosen operation is not setup,\nor you are accessing this page directly from the web";
