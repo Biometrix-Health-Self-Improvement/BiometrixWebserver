@@ -14,6 +14,9 @@ try
 	#includes the script for getting the db connection
 	require '/var/www/dbconnection/Get_db_connection.php';
 	
+	$json_verified = array();	
+	$json_verified['Verified'] = false;
+
 	#Makes a call to a the get_db_connection that sets up the PDO connection
 	$db_connection = DbConnection::get_instance()->get_db_connection();	
 
@@ -31,15 +34,16 @@ try
 	if ($correct_user_handle->fetch() == false)
 	{
 		$db_connection = null;
-		exit("That username and email combination does not exist");
+		$json_verified['Error'] = "Username and email combination does not exist";
+		echo json_encode($json_verified);
+		exit;
 	}
 
 	#calls the script that sends the email and creates the file on the
 	#server corresponding to it.
 	require '/var/www/dbconnection/Reset_password.php';
 
-	$json_verified = array();	
-	$json_verified['Verified'] = True;
+	$json_verified['Verified'] = true;
 	$json_verified['EmailAddress'] = $email;
 	echo json_encode($json_verified);
 	$db_connection=null;	

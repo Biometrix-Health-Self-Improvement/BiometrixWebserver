@@ -23,27 +23,31 @@ case "Login":
 	#Retrieves the json information specific to logging in 
 	$username = $http_post["Username"];
 	$password = $http_post["Password"];
-	require '../dboperations/login_user';
+	require '../dboperations/login_user.php';
+	break;
+case "GoogleLogin":
+	$google_token = $http_post["GoogleToken"];
+	require '../google-login/google_login.php';
 	break;
 case "Add":
 	#Retrieves the json information for adding a user 
 	$username = $http_post["Username"];
 	$password = $http_post["Password"];
 	$email = $http_post["Email"];
-	require '../dboperations/add_user';
+	require '../dboperations/add_user.php';
 	break;
 case "Delete":
 	#Retrieves the json information for deleting a user 
 	$username = $http_post["Username"];
 	$password = $http_post["Password"];
 	$email = $http_post["Email"];
-	require '../dboperations/del_user';
+	require '../dboperations/del_user.php';
 	break;
 case "Reset":
 	#Retrieves the json information for resetting a user
 	$username = $http_post["Username"];
 	$email = $http_post["Email"];
-	require '../dboperations/reset_user';
+	require '../dboperations/reset_user.php';
 	break;
 default:
 	echo "Welcome to Biometrix!\nEither your chosen operation is not setup,\nor you are accessing this page directly from the web";

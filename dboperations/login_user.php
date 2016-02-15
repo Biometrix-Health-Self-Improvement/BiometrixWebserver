@@ -12,14 +12,16 @@
 try
 {
 	#Includes the code for verifying the user
-	require 'verify_user';
+	require '/var/www/dboperations/verify_user.php';
 	
-	#Retrieves a json object
-	$verification_json = verify_user($username, $password);
-	
+	#Retrieves a json object with the token for the user
+	$verification_json = verify_user($username, $password, true);
+
 	#Encodes the object and returns it as a json object.	
 	echo json_encode($verification_json);
-	
+	#echo var_dump($verification_json);
+
+
 	$db_connection=null;	
 }
 catch(PDOException $except)

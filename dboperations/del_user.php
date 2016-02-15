@@ -34,11 +34,12 @@ try
 
 		$stmt_handle->execute();
 		
-		$json_delete_status['deleted'] = true;
+		$json_delete_status['Deleted'] = true;
 	}
 	else
 	{
-		$json_delete_status['deleted'] = false;
+		$json_delete_status['Deleted'] = false;
+		$json_delete_status['Error'] = "Account not found"; 
 	}
 
 	$db_connection=null;

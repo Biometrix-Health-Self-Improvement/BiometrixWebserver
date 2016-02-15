@@ -15,7 +15,7 @@
 
 if (!function_exists('verify_user'))
 {
-function verify_user($username, $password)
+function verify_user($username, $password, $return_token = false)
 {
 	#Creates an object for the return of the json object.	
 	$json_verified = array();
@@ -32,7 +32,7 @@ try
 	$db_connection = DbConnection::get_instance()->get_db_connection();
 	
 	#Creates a prepared statement to select the username and password associated with the account
-	$stmt_handle = $db_connection->prepare('Select Username, Password From Biometrix.dbo.LoginTable WHERE Username = :name');
+	$stmt_handle = $db_connection->prepare('Select UserID, Password, Verified From Biometrix.dbo.LoginTable WHERE Username = :name');
 
 	#bands the value of :name in the above statement to the first value
 	#passed in on the commandline
@@ -42,21 +42,32 @@ try
 	$stmt_handle->execute();
 
 	$pass_correct = false;
+	$userid = 0;
 
 	#Fetches the first row, if null the username and password were wrong	
 	if ($row = $stmt_handle->fetch() )
 	{
+		if ($row[2] == 0)
+		{
+			$json_verified['Verified'] = false;
+			$json_verified['Error'] = "Please verify your email account";
+		}
 		#Uses built in bcrypt functionality to verify against the hash
-		if ( password_verify($password, $row[1]) )
+ 		else if ( password_verify($password, $row[1]) )
 		{
 			$pass_correct = true;
-		}
-	}
+			$json_verified['Verified'] = true;
 
-	if ($pass_correct)
-	{
-		#Stores the success in a json object
-		$json_verified['Verified'] = true;
+			#creates a return token for the user if one was
+			#requested			
+			if ($return_token = true)
+			{
+				$userid = intval($row[0]);
+				#$userid = 1;
+				require '/var/www/dbconnection/Sign_jwt.php';
+				$json_verified['Token'] = JWTSign::sign_token($userid);
+			}
+		}
 	}
 
 }

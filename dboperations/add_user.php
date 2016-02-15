@@ -15,8 +15,11 @@ try
 	
 	#Makes a call to a the get_db_connection that sets up the PDO connection
 	$db_connection = DbConnection::get_instance()->get_db_connection();	
-
 	
+	#Creates the json object that is passed back to the application
+	$json_verified = array();
+	$json_verified['Verified'] = false;
+
 	#Prepares a select statement to check if the username already exists
 	$username_check_handle = $db_connection->prepare('Select Username From Biometrix.dbo.LoginTable Where Username = :name');
 	
@@ -28,6 +31,9 @@ try
 	if ($username_check_handle->fetch() != false)
 	{
 		$db_connection = null;
+		$json_verified['Error'] = "Username already in use";
+		echo json_encode($json_verified);
+		$db_connection=null;	
 		exit("That username already exists\n");
 	}
 	
@@ -43,12 +49,17 @@ try
 	if ($email_check_handle->fetch() != false)
 	{
 		$db_connection = null;
-		exit("That email address is already in use!\n");
+		$json_verified['Error'] = "Email address already in use";
+		echo json_encode($json_verified);
+		$db_connection=null;	
+		exit;
 	}
+
+	#$db_connection->exec('SET ANSI_NULL_DFLT_ON ON GO');
 	
 	#Creates the prepared statement to insert the new username, password, 
 	#and email into the table
-	$stmt_handle = $db_connection->prepare('Insert Into Biometrix.dbo.LoginTable (Username, Password, Email) Values (:name, :pass, :email)');
+	$stmt_handle = $db_connection->prepare('Insert Into Biometrix.dbo.LoginTable (Username, [Password], Email) Values (:name, :pass, :email)');
 
 	#Hashes the user's password
 	$inserted_pass = password_hash($password, PASSWORD_DEFAULT); 
@@ -58,11 +69,33 @@ try
 	$stmt_handle->bindValue(':pass', $inserted_pass, PDO::PARAM_STR);
 	$stmt_handle->bindValue(':email', $email, PDO::PARAM_STR);
 
+	#Executes the prepared statement
 	$stmt_handle->execute();
+
+	#Creates another prepared statement to retrieve the newly added user's ID
+	$stmt_handle = $db_connection->prepare('Select UserID From Biometrix.dbo.LoginTable WHERE Username = :name AND Email = :email');
+
+	#Binds and executes the statement
+	$stmt_handle->bindValue(':name', $username, PDO::PARAM_STR);
+	$stmt_handle->bindValue(':email', $email, PDO::PARAM_STR);
 	
-	#Creates the json object that is passed back to the application
-	$json_verified = array();
-	$json_verified['Verified'] = True;
+	$stmt_handle->execute();
+
+	$userid = 0;
+
+	if ($row = $stmt_handle->fetch() )
+	{
+		$userid = $row[0];
+	}
+
+
+	$json_verified['Verified'] = true;
+	
+	#require '../dbconnection/Sign_jwt.php';
+	
+	require '/var/www/dbconnection/New_user_verify.php';
+	#$json_verified['Token'] = JWTSign::sign_token($userid);
+	
 	echo json_encode($json_verified);
 	$db_connection=null;	
 }
