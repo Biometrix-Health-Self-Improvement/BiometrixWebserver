@@ -49,6 +49,23 @@ case "Reset":
 	$email = $http_post["Email"];
 	require '../dboperations/reset_user.php';
 	break;
+case "Insert";
+case "Update";
+	$userid = 0;
+	require '/var/www/dbconnection/Sign_jwt.php';
+	try
+	{
+		$userid = JWTSign::decode_token($http_post["Token"]);
+		$params = json_decode($http_post["Params"], true);
+		$table = $http_post["Table"];
+		require '/var/www/dboperations/insert_update_values.php';
+	}
+	catch(Exception $except)
+	{
+		echo "Invalid Token. Try logging out and in again.";
+	}
+	break;
+
 default:
 	echo "Welcome to Biometrix!\nEither your chosen operation is not setup,\nor you are accessing this page directly from the web";
 	break;
