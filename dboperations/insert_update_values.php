@@ -280,6 +280,45 @@ try
 			$cols["22"] = "WebDietID";
 		}
 		break;
+	case "Medication":
+		$prep_string = "Exec Medication$operation";
+		$prep_string = $prep_string . " @UserID = :UserID";
+		$prep_string = $prep_string . ", @LocalMedicationID = :LocalMedicationID";
+		$prep_string = $prep_string . ", @Date = :Date";
+		$prep_string = $prep_string . ", @Time = :Time";
+		$prep_string = $prep_string . ", @BrandName = :BrandName";
+		$prep_string = $prep_string . ", @Prescriber = :Prescriber";
+		$prep_string = $prep_string . ", @Dose = :Dose";
+		$prep_string = $prep_string . ", @Instructions = :Instructions";
+		$prep_string = $prep_string . ", @Warnings = :Warnings";
+		$prep_string = $prep_string . ", @Notes = :Notes";
+
+		if ($operation == "Update")
+		{
+			$prep_string = $prep_string . ", @WebMedicationID = :WebMedicationID";
+		}
+
+		$stmt_handle = $db_connection->Prepare($prep_string);
+
+		$cols = array();
+		$cols["1"] = "UserID";
+		$cols["2"] = "LocalMedicationID";
+		$cols["3"] = "Date";
+		$cols["4"] = "Time";
+		$cols["5"] = "BrandName";
+		$cols["6"] = "Prescriber";
+		$cols["7"] = "Dose";
+		$cols["8"] = "Instructions";
+		$cols["9"] = "Warnings";
+		$cols["10"] = "Notes";
+
+		if ($operation == "Update")
+		{
+			$cols["11"] = "WebMedicationID";
+		}
+		break;
+
+
 	default:
 		echo "Unrecognized database table";
 		break;
