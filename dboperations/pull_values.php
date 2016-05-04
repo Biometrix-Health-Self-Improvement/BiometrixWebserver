@@ -153,14 +153,13 @@ try
 		$prep_string = $prep_string . ", convert(varchar(5), Duration, 114)";
 		$prep_string = $prep_string . ", Quality";
 		$prep_string = $prep_string . ", Notes";
-		$prep_string = $prep_string . ", Health";
 		$prep_string = $prep_string . " From Biometrix.dbo.Sleep";
 		$prep_string = $prep_string . " LEFT JOIN #TempID ON ID = WebSleepID";
 		$prep_string = $prep_string . " Where [UserId] = ? AND ID is null";
 
 		$stmt_handle = $db_connection->Prepare($prep_string);
 
-		$num_cols = 9;
+		$num_cols = 8;
 
 		$cols = array();
 		$cols[0] = "WebSleepID";
@@ -171,7 +170,6 @@ try
 		$cols[5] = "Duration";
 		$cols[6] = "Quality";
 		$cols[7] = "Notes";
-		$cols[8] = "Health";
 		break;
 	case "Medication":
 		$prep_string = "Select ";

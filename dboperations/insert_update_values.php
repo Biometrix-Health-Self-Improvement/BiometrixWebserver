@@ -68,7 +68,6 @@ try
 		$prep_string = $prep_string . ", @Duration = :Duration";
 		$prep_string = $prep_string . ", @Quality = :Quality";
 		$prep_string = $prep_string . ", @Notes = :Notes";
-		$prep_string = $prep_string . ", @Health = :Health";
 
 		if ($operation == "Update")
 		{
@@ -85,13 +84,13 @@ try
 		$cols["5"] = "Duration";
 		$cols["6"] = "Quality";
 		$cols["7"] = "Notes";
-		$cols["8"] = "Health";
 
 		if ($operation == "Update")
 		{
-			$cols["9"] = "WebSleepID";
+			$cols["8"] = "WebSleepID";
 		}
 		break;
+
 	case "Mood":
 		$prep_string = "Exec Mood$operation";
 		$prep_string = $prep_string . " @UserID = :UserID";
