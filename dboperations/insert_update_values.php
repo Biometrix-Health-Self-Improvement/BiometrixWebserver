@@ -2,7 +2,7 @@
 #
 # Author: Troy Riblett, troy.riblett@oit.edu
 # Created: 2/25/2016
-# Last Modified: 2/25/2016
+# Last Modified: 4/17/2016 - Changed to function for sync purposes
 # 
 # insert_update_values.php
 #     Inserts values into a table by calling the stored procedure for the table
@@ -10,6 +10,10 @@
 #     the user's id should be stored in $userid, the params as an array in
 #     $params, the table name in $table, and the operation in $operation
 
+if (!function_exists('insert_or_update'))
+{
+function insert_or_update($userid, $operation, $params, $table)
+{
 try
 {
 	#includes the script for getting the db connection
@@ -20,28 +24,6 @@ try
 
 	switch($table)
 	{
-	/*case "Exercise":
-		$stmt_handle = $db_connection->Prepare("Exec Exercise$operation @UserID = :UserID, @LocalExerciseID = :LocalExerciseID, @Title = :Title, @Type = :Type, @Minutes = :Minutes, @Reps = :Reps, @Laps = :Laps, @Weight = :Weight, @Inty = :Inty, @Notes = :Notes, @DateEx = :DateEx, @TimeEx = :TimeEx");
-		
-		$cols = array();
-		$cols["1"] = "UserID";
-		$cols["2"] = "LocalExerciseID";
-		$cols["3"] = "Title";
-		$cols["4"] = "Type";
-		$cols["5"] = "Reps";
-		$cols["6"] = "Minutes";
-		$cols["7"] = "Laps";
-		$cols["8"] = "Weight";
-		$cols["9"] = "Inty";
-		$cols["10"] = "Notes";
-		$cols["11"] = "DateEx";
-		$cols["12"] = "TimeEx";
-
-		if ($operation == "Update")
-		{
-			$cols["13"] = "WebExerciseID";
-		}
-		break;*/
 	case "Exercise":
 		$prep_string = "Exec Exercise$operation";
 		$prep_string = $prep_string . " @UserID = :UserID";
@@ -49,9 +31,6 @@ try
 		$prep_string = $prep_string . ", @Title = :Title";
 		$prep_string = $prep_string . ", @Type = :Type";
 		$prep_string = $prep_string . ", @Minutes = :Minutes";
-		$prep_string = $prep_string . ", @Reps = :Reps";
-		$prep_string = $prep_string . ", @Laps = :Laps";
-		$prep_string = $prep_string . ", @Weight = :Weight";
 		$prep_string = $prep_string . ", @Inty = :Inty";
 		$prep_string = $prep_string . ", @Notes = :Notes";
 		$prep_string = $prep_string . ", @DateEx = :DateEx";
@@ -70,40 +49,16 @@ try
 		$cols["3"] = "Title";
 		$cols["4"] = "Type";
 		$cols["5"] = "Minutes";
-		$cols["6"] = "Reps";
-		$cols["7"] = "Laps";
-		$cols["8"] = "Weight";
-		$cols["9"] = "Inty";
-		$cols["10"] = "Notes";
-		$cols["11"] = "DateEx";
-		$cols["12"] = "TimeEx";
+		$cols["6"] = "Inty";
+		$cols["7"] = "Notes";
+		$cols["8"] = "DateEx";
+		$cols["9"] = "TimeEx";
 
 		if ($operation == "Update")
 		{
-			$cols["13"] = "WebExerciseID";
+			$cols["10"] = "WebExerciseID";
 		}
 		break;
-
-
-
-	/*case "Sleep":
-		$stmt_handle = $db_connection->Prepare("Exec Sleep$operation @UserID = :UserID, @LocalSleepID = :LocalSleepID, @Date = :Date, @Time = :Time, @Duration = :Duration, @Quality = :Quality, @Notes = :Notes, @Health = :Health");
-		
-		$cols = array();
-		$cols["1"] = "UserID";
-		$cols["2"] = "LocalSleepID";
-		$cols["3"] = "Date";
-		$cols["4"] = "Time";
-		$cols["5"] = "Duration";
-		$cols["6"] = "Quality";
-		$cols["7"] = "Notes";
-		$cols["8"] = "Health";
-
-		if ($operation == "Update")
-		{
-			$cols["9"] = "WebSleepID";
-		}
-		break;*/
 	case "Sleep":
 		$prep_string = "Exec Sleep$operation";
 		$prep_string = $prep_string . " @UserID = :UserID";
@@ -135,27 +90,8 @@ try
 		if ($operation == "Update")
 		{
 			$cols["9"] = "WebSleepID";
-}
-		break;
-	/*case "Mood":
-		$stmt_handle = $db_connection->Prepare("Exec Mood$operation @UserID = :UserID, @LocalMoodID = :LocalMoodID, @Date = :Date, @Time = :Time, @Depression = :Depression, @Elevated = :Elevated, @Irritable = :Irritable, @Anxiety = :Anxiety, @Notes = :Notes");
-		
-		$cols = array();
-		$cols["1"] = "UserID";
-		$cols["2"] = "LocalMoodID";
-		$cols["3"] = "Date";
-		$cols["4"] = "Time";
-		$cols["5"] = "Depression";
-		$cols["6"] = "Elevated";
-		$cols["7"] = "Irritable";
-		$cols["8"] = "Anxiety";
-		$cols["9"] = "Notes";
-
-		if ($operation == "Update")
-		{
-			$cols["10"] = "WebMoodID";
 		}
-		break;*/
+		break;
 	case "Mood":
 		$prep_string = "Exec Mood$operation";
 		$prep_string = $prep_string . " @UserID = :UserID";
@@ -191,36 +127,6 @@ try
 			$cols["10"] = "WebMoodID";
 		}
 		break;
-	/*case "Diet":
-		$stmt_handle = $db_connection->Prepare("Exec Diet$operation @UserID = :UserID, @LocalDietID = :LocalDietID, @Date = :Date, @FoodType = :FoodType, @Meal = :Meal, @ServingSize = :ServingSize, @Calories = :Calories, @TotalFat = :TotalFat, @SaturatedFat = :SaturatedFat, @TransFat = :TransFat, @Cholesterol = :Cholesterol, @Sodium = :Sodium, @TotalCarbs = :TotalCarbs, @DietaryFiber = :DietaryFiber, @Sugars = :Sugars, @Protein = :Protein, @VitaminA = :VitaminA, @VitaminB = :VitaminB, @Calcium = :Calcium, @Iron = :Iron, @Notes = :Notes");
-	
-		$cols["1"] = "UserID";
-		$cols["2"] = "LocalDietID";
-		$cols["3"] = "Date";
-		$cols["4"] = "FoodType";
-		$cols["5"] = "Meal";
-		$cols["6"] = "ServingSize";
-		$cols["7"] = "Calories";
-		$cols["8"] = "TotalFat";
-		$cols["9"] = "SaturatedFat";
-		$cols["10"] = "TransFat";
-		$cols["11"] = "Cholesterol";
-		$cols["12"] = "Sodium";
-		$cols["13"] = "TotalCarbs";
-		$cols["14"] = "DietaryFiber";
-		$cols["15"] = "Sugars";
-		$cols["16"] = "Protein";
-		$cols["17"] = "VitaminA";
-		$cols["18"] = "VitaminB";
-		$cols["19"] = "Calcium";
-		$cols["20"] = "Iron";
-		$cols["21"] = "Notes";
-
-		if ($operation == "Update")
-		{
-			$cols["22"] = "WebDietID";
-		}
-		break;*/
 	case "Diet":
 		$prep_string = "Exec Diet$operation";
 		$prep_string = $prep_string . " @UserID = :UserID";
@@ -353,7 +259,7 @@ try
 		}
 		$stmt_handle->execute();
 
-		if ($operation = "Insert")
+		if ($operation == "Insert")
 		{
 			if($row = $stmt_handle->fetch() )
 			{
@@ -368,12 +274,37 @@ try
 			else
 			{
 				$json_verified['Verified'] = false;
-				$json_verified['Error'] = "Database update failed";
+				$json_verified['Error'] = "Database insert failed";
 			}
 		}
-		else if($operation = "Update")
+		else if($operation == "Update")
 		{
-			$json_verified['Verified'] = true;
+			if($row = $stmt_handle->fetch() )
+			{
+				$num_rows = $row[0];
+				
+				if ($num_rows == 1)
+				{
+					$json_verified['Verified'] = true;
+					#Grabs the web key from the first argument
+					$json_verified['WebKey'] = $params[$cols["1"]];
+				}
+				else if ($num_rows > 1)
+				{
+					$json_verified['Verified'] = false;
+					$json_verified['Error'] = "Database updated multiple fields";
+				}
+				else
+				{
+					$json_verified['Verified'] = false;
+					$json_verified['Error'] = "Failed to update row on Webdatabase";
+				}
+			}
+			else
+			{
+				$json_verified['Verified'] = false;
+				$json_verified['Error'] = "Database update failed";
+			}
 		}
 			
 		$stmt_handle = null;
@@ -384,7 +315,7 @@ try
 		$json_verified['Error'] = "Invalid database table chosen";
 	}
 	$db_connection=null;	
-	echo json_encode($json_verified);
+	return $json_verified;
 }
 catch(PDOException $except)
 {
@@ -398,6 +329,8 @@ catch(PDOException $except)
 catch(InvalidArgumentException $arg_except)
 {
 	echo $arg_except->getMessage() . "\n";
+}
+}
 }
 
 ?>
