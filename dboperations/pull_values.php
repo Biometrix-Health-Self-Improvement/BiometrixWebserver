@@ -34,6 +34,9 @@ try
 		$prep_string = $prep_string . ", Elevated";
 		$prep_string = $prep_string . ", Irritable";
 		$prep_string = $prep_string . ", Anxiety";
+		$prep_string = $prep_string . ", Sad";
+		$prep_string = $prep_string . ", Happy";
+		$prep_string = $prep_string . ", Anger";
 		$prep_string = $prep_string . ", Notes";
 		$prep_string = $prep_string . " From Biometrix.dbo.Mood";
 		$prep_string = $prep_string . " LEFT JOIN #TempID ON ID = WebMoodID";
@@ -41,7 +44,7 @@ try
 
 		$stmt_handle = $db_connection->Prepare($prep_string);
 
-		$num_cols = 10;
+		$num_cols = 13;
 
 		$cols = array();
 		$cols[0] = "WebMoodID";
@@ -53,7 +56,10 @@ try
 		$cols[6] = "Elevated";
 		$cols[7] = "Irritable";
 		$cols[8] = "Anxiety";
-		$cols[9] = "Notes";
+		$cols[9] = "Sad";
+		$cols[10] = "Happy";
+		$cols[11] = "Anger";
+		$cols[12] = "Notes";
 		break;
 	case "Diet":
 		$prep_string = "Select ";

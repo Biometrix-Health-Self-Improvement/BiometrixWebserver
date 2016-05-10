@@ -70,6 +70,7 @@ try
 		
 		require '/var/www/dbconnection/Sign_jwt.php';
 		$json_verified['Verified'] = true;
+		$json_verified['Google'] = true;
 		$json_verified['Token'] = JWTSign::sign_token($userid);
 		
 		echo json_encode($json_verified);

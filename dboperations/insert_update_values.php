@@ -90,7 +90,6 @@ try
 			$cols["8"] = "WebSleepID";
 		}
 		break;
-
 	case "Mood":
 		$prep_string = "Exec Mood$operation";
 		$prep_string = $prep_string . " @UserID = :UserID";
@@ -101,6 +100,9 @@ try
 		$prep_string = $prep_string . ", @Elevated = :Elevated";
 		$prep_string = $prep_string . ", @Irritable = :Irritable";
 		$prep_string = $prep_string . ", @Anxiety = :Anxiety";
+		$prep_string = $prep_string . ", @Sad = :Sad";
+		$prep_string = $prep_string . ", @Happy = :Happy";
+		$prep_string = $prep_string . ", @Anger = :Anger";
 		$prep_string = $prep_string . ", @Notes = :Notes";
 
 		if ($operation == "Update")
@@ -119,13 +121,17 @@ try
 		$cols["6"] = "Elevated";
 		$cols["7"] = "Irritable";
 		$cols["8"] = "Anxiety";
-		$cols["9"] = "Notes";
+		$cols["9"] = "Sad";
+		$cols["10"] = "Happy";
+		$cols["11"] = "Anger";
+		$cols["12"] = "Notes";
 
 		if ($operation == "Update")
 		{
-			$cols["10"] = "WebMoodID";
+			$cols["13"] = "WebMoodID";
 		}
 		break;
+
 	case "Diet":
 		$prep_string = "Exec Diet$operation";
 		$prep_string = $prep_string . " @UserID = :UserID";
@@ -274,6 +280,7 @@ try
 			{
 				$json_verified['Verified'] = false;
 				$json_verified['Error'] = "Database insert failed";
+				$json_verified['ErrorInfo'] = $stmt_handle->errorInfo();
 			}
 		}
 		else if($operation == "Update")
