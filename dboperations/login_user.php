@@ -16,6 +16,7 @@ try
 	
 	#Retrieves a json object with the token for the user
 	$verification_json = verify_user($username, $password, true);
+	$verification_json['Operation'] = "Login";
 
 	#Encodes the object and returns it as a json object.	
 	echo json_encode($verification_json);

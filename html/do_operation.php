@@ -58,7 +58,9 @@ case "Update";
 		$params = json_decode($http_post["Params"], true);
 		$table = $http_post["Table"];
 		require '/var/www/dboperations/insert_update_values.php';
-		echo json_encode(insert_or_update($userid, $operation, $params, $table));
+		$return_json = insert_or_update($userid, $operation, $params, $table);
+		$return_json["Operation"] = $operation;
+		echo json_encode($return_json);
 	}
 	catch(Exception $except)
 	{
@@ -74,7 +76,9 @@ case "Delete";
 		$params = json_decode($http_post["Params"], true);
 		$table = $http_post["Table"];
 		require '/var/www/dboperations/delete_values.php';
-		echo json_encode(delete_values($userid, $params, $table));
+		$return_json = delete_values($userid, $params, $table);
+		$return_json["Operation"] = $operation;
+		echo json_encode($return_json);
 	}
 	catch(Exception $except)
 	{

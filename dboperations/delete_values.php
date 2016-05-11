@@ -100,6 +100,7 @@ try
 				$value = "";
 			}
 			$bind_name = ':' . $col;
+			$json_verified[$bind_name] = $value;
 			$stmt_handle->bindValue($bind_name, $value, PDO::PARAM_STR);		
 		}
 		$stmt_handle->execute();
@@ -117,6 +118,7 @@ try
 		{
 			$json_verified['Verified'] = false;
 			$json_verified['Error'] = "Row was not deleted from the web database";
+			$json_verified['ErrorInfo'] = $stmt_handle->errorInfo();
 		}
 		else if ($rows_affected > 1)
 		{

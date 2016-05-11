@@ -16,6 +16,7 @@ try
 	
 	$json_verified = array();	
 	$json_verified['Verified'] = false;
+	$json_verified['Operation'] = "Reset";
 
 	#Makes a call to a the get_db_connection that sets up the PDO connection
 	$db_connection = DbConnection::get_instance()->get_db_connection();	

@@ -241,6 +241,7 @@ try
 	#Bind the parameters and execute the stored procedure.
 	if(isset($cols) && isset($stmt_handle) )
 	{
+		$index = 1;
 		foreach ($cols as $col)
 		{
 
@@ -293,7 +294,7 @@ try
 				{
 					$json_verified['Verified'] = true;
 					#Grabs the web key from the first argument
-					$json_verified['WebKey'] = $params[$cols["1"]];
+					$json_verified['WebKey'] = $row[1];
 				}
 				else if ($num_rows > 1)
 				{
@@ -304,6 +305,9 @@ try
 				{
 					$json_verified['Verified'] = false;
 					$json_verified['Error'] = "Failed to update row on Webdatabase";
+					$json_verified['ErrorInfo'] = $stmt_handle->errorInfo();
+					$json_verified['PreapredWith'] = $prep_string;
+					
 				}
 			}
 			else

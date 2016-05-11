@@ -85,6 +85,7 @@ try
 	//Auto sets to true, each operation can fail or succeed on
 	//its own.
 	$json_verified['Verified'] = true;
+	$json_verified['Operation'] = "Sync";
 	echo json_encode($json_verified);
 }
 catch(PDOException $except)

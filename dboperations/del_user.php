@@ -22,6 +22,7 @@ try
 	$verification_status = verify_user($username, $password);
 	
 	$json_delete_status = array();
+	$json_delete_status['Operation'] = "Delete";
 	
 	#If the verify_user function suceeded, remove the user
 	if ($verification_status['verified'] = true)
@@ -35,10 +36,12 @@ try
 		$stmt_handle->execute();
 		
 		$json_delete_status['Deleted'] = true;
+		$json_delete_status['Verified'] = true;
 	}
 	else
 	{
 		$json_delete_status['Deleted'] = false;
+		$json_delete_status['Verified'] = false;
 		$json_delete_status['Error'] = "Account not found"; 
 	}
 

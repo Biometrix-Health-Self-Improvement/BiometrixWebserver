@@ -19,6 +19,7 @@ try
 	#Creates the json object that is passed back to the application
 	$json_verified = array();
 	$json_verified['Verified'] = false;
+	$json_verified['Operation'] = "Add";
 
 	#Prepares a select statement to check if the username already exists
 	$username_check_handle = $db_connection->prepare('Select Username From Biometrix.dbo.LoginTable Where Username = :name');
