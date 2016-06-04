@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+#
+# Author: Troy Riblett, troy.riblett@oit.edu
+# Created: 1/23/2016
+# Last modified: 1/26/2016
+#
+# delete_reset_token 
+# Deletes the line containing the token passed in
+
+# Ensures the correct number of paramaters are passed to the script
+if [ "$#" -ne 1 ] 
+then
+	echo $#
+	echo 'usage: delete_reset_token token'  
+else
+#Removes the line
+	grep -v "$1" '/var/www/dbconnection/reset_verifications.txt' > '/var/www/dbconnection/tmp_reset.txt'
+	cat '/var/www/dbconnection/tmp_reset.txt' > '/var/www/dbconnection/reset_verifications.txt'
+	rm '/var/www/dbconnection/tmp_reset.txt'
+
+fi
+

@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+#
+# Author: Troy Riblett, troy.riblett@oit.edu
+# Created: 2/13/2016
+# Last modified: 2/13/2016
+#
+# add_new_token 
+# Add the passed in line to the add_verifications file. If the username
+# and email already exists, this replaces them, so that only the newest
+# verification is valid
+
+# Ensures the correct number of paramaters are passed to the script
+if [ "$#" -ne 6 ] 
+then
+	echo $#
+	echo 'usage: add_new_token day# hour min token username email'  
+else
+#Checks if there is already a line for the user in the file
+	LINE="$(grep $5 '/var/www/dbconnection/add_verifications.txt' | grep $6)"
+
+	if [ -n "$LINE" ]
+	then
+#this means that the old line must be deleted
+		grep -v "$LINE" '/var/www/dbconnection/add_verifications.txt' > '/var/www/dbconnection/tmp_add.txt'
+		cat '/var/www/dbconnection/tmp_add.txt' > '/var/www/dbconnection/add_verifications.txt'
+		rm '/var/www/dbconnection/tmp_add.txt'
+
+		echo "New token created. Old Verification token overwritten"
+	else
+		echo "New verification token created"
+	fi
+	
+#Tacks the newline onto the end of the file
+	echo "$1:$2:$3:$4:$5:$6" >> '/var/www/dbconnection/add_verifications.txt'
+fi
+

@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+#
+# Author: Troy Riblett, troy.riblett@oit.edu
+# Created: 1/23/2016
+# Last modified: 1/26/2016
+#
+# check_reset_token 
+# Checks if there is a username and token that correspond to the passed in 
+# values
+
+# Ensures the correct number of paramaters are passed to the script
+if [ "$#" -ne 2 ] 
+then
+	echo $#
+	echo 'usage: check_reset_token username token'  
+else
+
+	SEARCH="$2":"$1":;
+#Checks if the line exists
+	LINE="$(grep $SEARCH '/var/www/dbconnection/reset_verifications.txt')"
+
+	if [ -n "$LINE" ]
+	then
+		echo 1 
+	else
+		echo 0
+	fi
+	
+fi
+

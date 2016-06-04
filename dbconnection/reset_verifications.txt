@@ -1,0 +1,4 @@
+#A file that contains the information for each user who has requested a
+#password reset. This file will be cleaned up when the user resets their
+#password, or if they have not responded in 24 hours.
+

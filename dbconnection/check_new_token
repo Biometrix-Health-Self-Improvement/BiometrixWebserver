@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+#
+# Author: Troy Riblett, troy.riblett@oit.edu
+# Created: 2/13/2016
+# Last modified: 2/13/2016
+#
+# check_new_token 
+# Checks if there is a username and token that correspond to the passed in 
+# values
+
+# Ensures the correct number of paramaters are passed to the script
+if [ "$#" -ne 2 ] 
+then
+	echo $#
+	echo 'usage: check_new_token username token'  
+else
+
+	SEARCH="$2":"$1":;
+#Checks if the line exists
+	LINE="$(grep $SEARCH '/var/www/dbconnection/add_verifications.txt')"
+
+	if [ -n "$LINE" ]
+	then
+		echo 1 
+	else
+		echo 0
+	fi
+	
+fi
+

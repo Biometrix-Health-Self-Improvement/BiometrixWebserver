@@ -1,0 +1,91 @@
+#!/usr/bin/env bash
+#
+# Author: Troy Riblett, troy.riblett@oit.edu
+# Created: 2/14/2016
+# Last modified: 2/15/2016
+#
+# cleanup_tokens_
+# Removes any tokens from the passed in verifications file that are over 24 
+# hours old. If the add option is marked, this also calls php scripts to
+# remove the user from the database
+
+if [ $# -ne 2 ]
+then
+	echo 'Usage: cleanup_tokens "tokenfile" op'
+	exit
+fi
+
+if [[ "$2" != "delete" && "$2" != "none" ]]
+then
+	echo 'Invalid op: Choose delete or none'
+	exit
+fi
+
+#cuts the current day (e.g. 1-7 with Sunday as 7) 
+#and time from the current date
+cur_day=$(date "+%u")
+cur_hour=$(date "+%H" )
+cur_min=$(date "+%M")
+
+if [ "$cur_day" -eq 7 ] 
+then
+	cur_day=0
+fi
+
+while read -r line; 
+do
+day=$(echo "$line" | cut -d ':' -f1) 
+hour=$(echo "$line" | cut -d ':' -f2)
+min=$(echo "$line" | cut -d ':' -f3)
+
+#regular expression for an int, if day doesn't match this it is a comment line
+int_re='^[0-9]+$'
+write_to_file=false
+
+#always write out comment lines
+if ! [[ $day =~ $int_re ]] ; then
+	write_to_file=true
+else
+	if [ "$cur_day" -eq "$day" ]
+	then
+		write_to_file=true
+	#If one of the two following conditions is not satisfied, then the
+	#verification is more than a day old.
+	elif [[ "$cur_day" -eq $(($day+1)) || "$cur_day" -eq $(($day-6)) ]]
+	then		
+
+		#if the current hour is less than the verified hour
+		#this is less than a day
+		if [ "$cur_hour" -lt "$hour" ]
+		then
+			write_to_file=true
+		#If the hours are the same, check the minutes
+		elif [ "$cur_hour" -eq "$hour" ]
+		then
+			if [ "$cur_min" -le "$min" ]
+			then
+				write_to_file=true
+			else
+				write_to_file=false
+			fi
+		#this is greater than a day
+		else
+			write_to_file=false
+		fi
+	else
+		write_to_file=false
+	fi		
+fi
+
+if [[ "$write_to_file" == true ]] 
+then
+	echo $line >> "$1""cpy"
+elif [[ "$2" == "delete" ]]
+then
+	username=$(echo $line | cut -d ':' -f5)
+	php -f /var/www/dbconnection/delete_unverified.php "$username"
+fi
+done < "$1"
+
+cat "$1""cpy" > "$1"
+rm "$1""cpy"

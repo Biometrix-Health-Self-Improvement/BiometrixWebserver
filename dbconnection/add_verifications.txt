@@ -1,0 +1,3 @@
+#This file contains a list of users who are unverified. When these usernames
+#are cleaned up, the corresponding record in the database will be cleaned up as
+#well.

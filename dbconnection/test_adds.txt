@@ -1,0 +1,9 @@
+#This file contains a list of users who are unverified. When these usernames
+#are cleaned up, the corresponding record in the database will be cleaned up as
+#well.
+1:6:19:B3ffiRXbnKgpSbdupqb1mV97gakhvANOsf8J0dYzUxx0XHkt8fcW5ugr:tro:toy.riblett@oit.edu
+3:6:19:B3ffiRXbnKgpSbdupqb1mV97gakhvANOsf8J0dYzUxx0XHkt8fcW5ugr:try:try.riblett@oit.edu
+4:6:19:B3ffiRXbnKgpSbdupqb1mV97gakhvANOsf8J0dYzUxx0XHkt8fcW5ugr:toy:tro.riblett@oit.edu
+6:6:19:B3ffiRXbnKgpSbdupqb1mV97gakhvANOsf8J0dYzUxx0XHkt8fcW5ugr:t2roy:tro3y.riblett@oit.edu
+6:6:19:B3ffiRXbnKgpSbdupqb1mV97gakhvANOsf8J0dYzUxx0XHkt8fcW5ugr:tro4y:tro24y.riblett@oit.edu
+6:6:19:B3ffiRXbnKgpSbdupqb1mV97gakhvANOsf8J0dYzUxx0XHkt8fcW5ugr:tro1y:tro123y.riblett@oit.edu

@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+#
+# Author: Troy Riblett, troy.riblett@oit.edu
+# Created: 2/15/2016
+# Last modified: 2/15/2016
+#
+# scheduled_cleanup
+# Calls the token cleanup script for both reset verifications and add
+# verifications.
+
+/var/www/dbconnection/cleanup_tokens "/var/www/dbconnection/reset_verifications.txt" none
+/var/www/dbconnection/cleanup_tokens "/var/www/dbconnection/add_verifications.txt" delete

@@ -1,0 +1,11 @@
+#A file that contains the information for each user who has requested a
+#password reset. This file will be cleaned up when the user resets their 
+#password, or if they have not responded in 24 hours.
+
+1:7:33:a4HPohKNEnZO1Fo20kUr7BSBjhxOfrkegkW4YGzc4HNaaO14SFaE9yp:troy:troy.riblett@oit.edu 
+0:3:57:a4HPohKNEnZO1Fo20kUr7BSBjhxOfrkegkW4YGzc4HNaaO14SFaE9yp:troy:troy.riblett@oit.edu 
+6:2:35:a4HPohKNEnZO1Fo20kUr7BSBjhxOfrkegkW4YGzc4HNaaO14SFaE9yp:troy:troy.riblett@oit.edu 
+0:2:35:a4HPohKNEnZO1Fo20kUr7BSBjhxOfrkegkW4YGzc4HNaaO14SFaE9yp:troy:troy.riblett@oit.edu 
+0:9:35:a4HPohKNEnZO1Fo20kUr7BSBjhxOfrkegkW4YGzc4HNaaO14SFaE9yp:troy:troy.riblett@oit.edu 
+2:9:35:a4HPohKNEnZO1Fo20kUr7BSBjhxOfrkegkW4YGzc4HNaaO14SFaE9yp:troy:troy.riblett@oit.edu 
+2:8:35:a4HPohKNEnZO1Fo20kUr7BSBjhxOfrkegkW4YGzc4HNaaO14SFaE9yp:troy:troy.riblett@oit.edu 

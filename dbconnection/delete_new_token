@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+#
+# Author: Troy Riblett, troy.riblett@oit.edu
+# Created: 2/13/2016
+# Last modified: 2/13/2016
+#
+# delete_new_token 
+# Deletes the line containing the token passed in
+
+# Ensures the correct number of paramaters are passed to the script
+if [ "$#" -ne 1 ] 
+then
+	echo $#
+	echo 'usage: delete_new_token token'  
+else
+#Removes the line
+	grep -v "$1" '/var/www/dbconnection/add_verifications.txt' > '/var/www/dbconnection/tmp_new.txt'
+	cat '/var/www/dbconnection/tmp_new.txt' > '/var/www/dbconnection/add_verifications.txt'
+	rm '/var/www/dbconnection/tmp_new.txt'
+
+fi
+
